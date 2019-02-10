@@ -1,0 +1,54 @@
+http:
+  port: 8080
+admin:
+  port: 9876
+  hostname: localhost
+apiEndpoints:
+  graphql:
+    host: '*'
+    paths:
+      - /graphql
+      - /graphiql
+  graphqlWs:
+    host: '*'
+    paths:
+      - /subscriptions
+  ui:
+    host: '*'
+    paths:
+      - /*
+serviceEndpoints:
+  graphql:
+    url: ${GRAPHQL}
+  graphqlWs:
+    url: ${GRAPHQL_WS}
+  ui:
+    url: ${UI_URL}
+policies:
+  - proxy
+pipelines:
+  - graphql:
+    apiEndpoints:
+      - graphql
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: graphql
+              changeOrigin: true
+  - graphqlWs:
+    apiEndpoints:
+      - graphqlWs
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: graphqlWs
+              changeOrigin: true
+              ws: true
+  - ui:
+    apiEndpoints:
+      - ui
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: ui
+              changeOrigin: true

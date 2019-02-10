@@ -1,0 +1,26 @@
+{
+  "name": "turbo-logz-gateway",
+  "description": "Express Gateway Instance Bootstraped from Command Line",
+  "repository": {},
+  "license": "UNLICENSED",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon --exec node .",
+    "test": "exit 0",
+    "kube": "telepresence --swap-deployment test-unicron-gateway --run yarn start"
+  },
+  "dependencies": {
+    "express-gateway": "^1.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "nodemon": "^1.18.7"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "node_modules"
+    ],
+    "ext": "json yml"
+  }
+}
