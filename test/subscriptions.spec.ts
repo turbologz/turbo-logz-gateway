@@ -1,32 +1,25 @@
 import {expect} from 'chai';
-import * as supertest from 'supertest';
-import * as express from 'express';
+import * as WebSocket from 'ws';
 import '../server';
 
 describe('Graphql Route', () => {
 
-    let request: any;
+    beforeEach(() => {
+        const wss = new WebSocket.Server({port: 3002});
 
-    beforeEach(async () => {
-        request = supertest("http://localhost:8080");
+        wss.on('connection', (ws: any) => {
+            console.log('Got connection');
 
-        const app = express();
-        const port = 3002;
-
-        app.get('/graphql', (req, res) => res.send({type: 'graphql'}));
-
-        await new Promise((resolve) => {
-            app.listen(port, () => resolve())
+            ws.send('test-message-from-server');
         });
     });
 
-    it('should communicate with graphql at /graphql route', (done) => {
-        request
-            .get("/graphql")
-            .expect(200)
-            .then((response: any) => {
-                expect(response.body).to.eql({type: 'graphql'});
-                done();
-            })
+    it('should communicate with graphql websocket at /subscriptions route', (done) => {
+        const ws = new WebSocket('ws://localhost:8000/subscriptions');
+
+        ws.on('message', (data) => {
+            expect(data).to.eql('test-message-from-server');
+            done();
+        });
     });
 });
