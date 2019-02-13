@@ -1,17 +1,6 @@
-FROM node:8-alpine AS build
+FROM nginx:latest
 
-COPY . ./app
+COPY nginx/nginx.conf.tmp /etc/nginx/nginx.conf.tmp
+COPY nginx/config.bsh /etc/nginx/config.bsh
 
-WORKDIR ./app
-
-RUN yarn --production
-
-RUN rm yarn.lock && rm .yarnclean
-
-FROM alpine AS prod
-
-RUN apk add nodejs-lts
-
-COPY --from=build /app .
-
-CMD ["node", "."]
+ENTRYPOINT ["/etc/nginx/config.bsh"]

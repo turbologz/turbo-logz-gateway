@@ -1,0 +1,28 @@
+#!/bin/sh
+
+echo build starting nginx config
+
+cp /etc/nginx/nginx.conf.tmp /etc/nginx/nginx.conf
+
+sed -i "s|___UI_URL___|$UI_URL|g" /etc/nginx/nginx.conf
+sed -i "s|___WS_URL___|$WS_URL|g" /etc/nginx/nginx.conf
+sed -i "s|___GRAPHQL_URL___|$GRAPHQL_URL|g" /etc/nginx/nginx.conf
+
+if [ -z "$UI_URL" ]; then
+    echo "Need to set UI_URL"
+    exit 1
+fi
+
+if [ -z "$WS_URL" ]; then
+    echo "Need to set WS_URL"
+    exit 1
+fi
+
+if [ -z "$GRAPHQL_URL" ]; then
+    echo "Need to set GRAPHQL_URL"
+    exit 1
+fi
+
+cat /etc/nginx/nginx.conf
+
+nginx -g 'daemon off;'
