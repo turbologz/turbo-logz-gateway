@@ -6,7 +6,6 @@ services:
 install:
   - yarn --ignore-engines
 script:
-  - yarn test
   - docker build -t turbologz/turbo-logz-gateway:$TRAVIS_BUILD_NUMBER .
 deploy:
   - provider: script
