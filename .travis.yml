@@ -3,8 +3,6 @@ node_js:
   - '8'
 services:
   - docker
-install:
-  - yarn --ignore-engines
 script:
   - docker build -t turbologz/turbo-logz-gateway:$TRAVIS_BUILD_NUMBER .
 deploy:
