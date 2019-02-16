@@ -8,6 +8,7 @@ services:
       - UI_URL=http://ui:80
       - WS_URL=http://websocket:8080
       - GRAPHQL_URL=http://ui:80
+      - FLINK_URL=http://ui:80
     volumes:
       - ./nginx/nginx.conf.tmp:/etc/nginx/nginx.conf.tmp
       - ./nginx/config.bsh:/etc/nginx/config.bsh

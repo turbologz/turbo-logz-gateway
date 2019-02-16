@@ -18,6 +18,10 @@ http {
         proxy_pass ___GRAPHQL_URL___;
     }
 
+    location /flink {
+        proxy_pass ___FLINK_URL___;
+    }
+
     location / {
         proxy_pass ___UI_URL___;
     }
